@@ -224,17 +224,10 @@ render_data_attendance <- function(x){
     return(unique_list)
 }
 
-# Get date from directory
-get_date <- function(path){
-    date <- as.Date(str_extract(path, "\\d{4}-\\d{2}-\\d{2}"),
-        format="%Y-%m-%d")
-    return(as.character(date))
-}
-
 # Functions: draw figures-------------------------------------------------------
 
 # Render tables
-create_dt <- function(x, title){
+create_dt <- function(x){
     require(DT)
     # Set table page length
     if(nrow(x)>100){
@@ -244,7 +237,7 @@ create_dt <- function(x, title){
     }
 
     # Title should use get_date to return date, appended to a title here
-    title <- paste("Zoom chat on", title, sep=" ")
+    title <- paste("Zoom chat ")
 
     # Render table
     DT::datatable(x,
@@ -263,13 +256,13 @@ create_dt <- function(x, title){
         rownames = FALSE)
 }
 
-render_chat_activity <- function(x, title){
+render_chat_activity <- function(x){
     require(ggplot2)
     require(plotly)
 
     # Extract date from file name
-    path <-'C:/Users/Shadow/Desktop/Zoom/2020-11-09 10.33.14 My Meeting 94135010620/meeting_saved_chat.txt'
-    date <- as.Date(str_extract(path, "\\d{4}-\\d{2}-\\d{2}"), format="%Y-%m-%d")
+    # date <- as.Date(str_extract(path, "\\d{4}-\\d{2}-\\d{2}"), format="%Y-%m-%d")
+  date <- as.character(Sys.Date())
 
     # Remove \t at the end of each string (not visible)
     x$time <- gsub("[\t]", "", x$time)
@@ -285,7 +278,7 @@ render_chat_activity <- function(x, title){
     # Get date/time count
     messages <- count(messages, date)
 
-    title <- paste("Chat activity on", title, sep = " ")
+    title <- paste("Chat activity")
 
     plot_ly(messages,
         x=~as.factor(date),
@@ -319,7 +312,7 @@ render_chat_activity <- function(x, title){
 }
 
 # Donut charts
-render_sent <- function(df, title, pct=FALSE){
+render_sent <- function(df, title="", pct=FALSE){
     require(dplyr)
     require(ggplot2)
     require(plotly)
@@ -331,7 +324,7 @@ render_sent <- function(df, title, pct=FALSE){
     df <- rename(df, group=Var1, value=Freq)
     row.names(df) <- NULL
 
-    title <- paste("Sent messages on", title, sep = " ")
+    title <- paste("Sent messages", title, sep = " ")
 
     fig <- df %>% plot_ly(labels = ~group, values = ~value, textinfo= ~value)
     fig <- fig %>% add_pie(hole = 0.6)
@@ -351,7 +344,7 @@ render_sent <- function(df, title, pct=FALSE){
     return(fig)
 }
 
-render_received <- function(df, title, pct=FALSE){
+render_received <- function(df, title="", pct=FALSE){
     require(dplyr)
     require(ggplot2)
     require(plotly)
@@ -363,7 +356,7 @@ render_received <- function(df, title, pct=FALSE){
     df <- rename(df, group=Var1, value=Freq)
     row.names(df) <- NULL
 
-    title <- paste("Received messages on", title, sep = " ")
+    title <- paste("Received messages", title, sep = " ")
 
     fig <- df %>% plot_ly(labels = ~group, values = ~value, textinfo= ~value)
     fig <- fig %>% add_pie(hole = 0.6)
@@ -409,23 +402,22 @@ ui=dashboardPage(
                 startExpanded = TRUE,
                 fluidRow(
                     column(1, offset = 0,
-                        shinyDirButton("directory", "Folder Select",
-                            "Select a folder with meeting_saved_chat.txt (on the right)",
-                            icon=icon('folder')))
+                        #shinyDirButton("directory", "Folder Select",
+                        #    "Select a folder with meeting_saved_chat.txt (on the right)",
+                        #    icon=icon('folder')))
+                        fileInput("upload", "Files",
+                            multiple = FALSE,
+                            accept = c("text/csv",
+                                "text/comma-separated-values,text/plain",
+                                ".csv")))
                 ),
                 tags$p(),
                 tags$p(HTML("Click the button above and navigate <br/>
                     to your <code>Zoom</code> folder, which is under<br/>
                     the <code>Documents</code> directory by default.<br/>
-                    default. The correct folder will contain<br/>
-                    a file named <code>meeting_saved_chat</code><br/>
-                    on the right side.<br/><br/>
-
-                    Only the left side of the menu can be<br/>
-                    accessed. Use the arrows to open and<br/>
-                    close directories until you locate the<br/>
-                    folder. Repeat this process to update<br/>
-                    the contents of the dashboard")),
+                    The correct folder will contain a file<br/>
+                    named <code>meeting_saved_chat</code>.<br/>
+                    Select that file.")),
                 tags$hr()
             ),
             menuItem("About this app", tabName = "about", icon=icon("th"),
@@ -478,16 +470,15 @@ ui=dashboardPage(
         fluidRow(
             tabBox(title=HTML("<b>Data and tables</b>"), id="tabset1", height="45vh",
                 tabPanel("Load data",
-                    tags$h4("Selected folder"),
-                    tags$p(HTML("The folder selected should be within your <code>Zoom</code>directory,\n
-                        where a dated folder is selected on the left, and a text file titled\n
-                        <code>meeting_saved_chat</code> is visible on the right.<br/><br/>
+                    tags$h4("Which file to select: meeting_saved_chat"),
+                    tags$p(HTML("The file selected should always be called <code>meeting_saved_chat</code>,\n
+                        located within your <code>Zoom</code>directory under <code>Documents</code>.<br/><br/>
 
-                        Typical path: <b>C:/Users/user/Documents/Zoom</b>\n\n
+                        Typical path: <b>C:/Users/user/Documents/Zoom/[<u>Really messy file</u>]/meeting_saved_chat</b>\n\n
 
                         You can also press the search icon on your Start panel, \n
                         search \" This PC\", and select <code>Documents</code>\n
-                        on the left. Your <code>Zoom</code> folder should be here.")),
+                        on the left. Your <code>Zoom</code> folder should be there.")),
                     verbatimTextOutput("directorypath"),
                     tags$hr()
                 ),
@@ -518,141 +509,121 @@ ui=dashboardPage(
 ), # End of UI
 
 server=function(input, output, session) {
-    # Empty container for output
-    vals <- reactiveValues(x = NULL)
-    volumes <- c(Home = fs::path_home(), "R Installation" = R.home(), getVolumes()())
-    shinyFileChoose(input, "file", roots = volumes, session = session)
-    # By setting `allowDirCreate = FALSE` a user will not be able to create a new directory
-    shinyDirChoose(input, "directory", roots = volumes, session = session,
-        restrictions = system.file(package = "base"), allowDirCreate = FALSE)
-    shinyFileSave(input, "save", roots = volumes, session = session,
-        restrictions = system.file(package = "base"))
 
     observe({
-        cat("\ninput$directory value:\n\n")
-        print(input$directory)
+
+
+    # input$upload will be NULL initially. After the user selects
+    # and uploads a file, head of that data file by default,
+    # or all rows if selected, will be shown.
+
+    req(input$upload)
+
+    # when reading semicolon separated files,
+    # having a comma separator causes `read.csv` to error
+    tryCatch(
+      {
+        # x <- read.csv(path_to_data, header = FALSE, sep = "\n",
+        #                        stringsAsFactors = TRUE, row.names = NULL)
+        x <- readr::read_lines(input$upload$datapath)
+
+      },
+      error = function(e) {
+        # return a safeError if a parsing error occurs
+        stop(safeError(e))
+      }
+    )
     })
 
     observe({
-    cat("\ninput$directory value:\n\n") # why twice
-    print(input$directory)
-    })
-
-    observe({
-        cat("\ninput$save value:\n\n")
-        print(input$save)
+        cat("\ninput$upload value:\n\n")
+        print(input$upload)
     })
 
     ## print to browser
-    output$directorypath <- renderPrint({
-        if (is.integer(input$directory)) {
-            cat("No directory has been selected (shinyDirChoose)")
+    output$uploadpath <- renderPrint({
+      req(input$upload)
+        if (is.integer(input$upload)) {
+            cat("No upload has been selected (shinyDirChoose)")
         } else {
-            #parseDirPath(volumes, input$directory)
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
+             x <- readr::read_lines(input$upload$datapath)
             x <- render_attendance(x)
             vals$x <- x
             updateTabItems(session, "tabset1", selected="Meeting transcript")
             updateTabItems(session, 'tabs', selected = "about")
             menu
-            cat(path_to_data)
+            #cat(path_to_data)
         }
     })
 
     output$table <- DT::renderDataTable({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
-            #x <- render_attendance(x)
+            x <- readr::read_lines(input$upload$datapath)
             x <- render_data_unique(x)
-            create_dt(x, get_date(path_to_data))
+            create_dt(x)
         }
     })
 
     output$attendance <- DT::renderDataTable({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
-            #x <- render_attendance(x)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data_attendance(x)
-            create_dt(x, get_date(path_to_data))
+            #create_dt(x, get_date(path_to_data))
         }
     })
 
     output$transcript <- DT::renderDataTable({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            transcript <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            transcript <- readr::read_lines(path_to_data)
-            transcript<- render_transcript(transcript)
-            create_dt(transcript, get_date(path_to_data))
+            x <- readr::read_lines(input$upload$datapath)
+            x <- render_transcript(x)
+            create_dt(x)
         }
     })
 
     output$plotly <-  renderPlotly({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            transcript <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            transcript <- readr::read_lines(path_to_data)
-            x <- render_data(transcript)
-            render_chat_activity(x, get_date(path_to_data))
+          x <- readr::read_lines(input$upload$datapath)
+            x <- render_data(x)
+            render_chat_activity(x)
         }
     })
 
     output$sent_messages <-  renderPlotly({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            transcript <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            transcript <- readr::read_lines(path_to_data)
-            x <- render_data(transcript)
-            render_sent(x, get_date(path_to_data))
+            x <- readr::read_lines(input$upload$datapath)
+            x <- render_data(x)
+            render_sent(x)
         }
     })
 
     output$received_messages <-  renderPlotly({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            transcript <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            transcript <- readr::read_lines(path_to_data)
-            x <- render_data(transcript)
-            render_received(x, get_date(path_to_data))
+            x <- readr::read_lines(input$upload$datapath)
+            x <- render_data(x)
+            render_received(x)
 
         }
     })
 
     # Value boxes
     output$unique_participants <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
 
             temp1 <- data.frame("person"=x$sender, "label"=c('sender'))
@@ -669,14 +640,11 @@ server=function(input, output, session) {
     })
 
     output$who_most_sent <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+            x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
 
             x <- data.frame(table(x$sender))
@@ -690,14 +658,11 @@ server=function(input, output, session) {
     })
 
     output$who_most_received <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
 
             x <- data.frame(table(x$recipient))
@@ -711,14 +676,11 @@ server=function(input, output, session) {
     })
 
     output$total_sent <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
 
             valueBox(
@@ -729,14 +691,11 @@ server=function(input, output, session) {
     })
 
     output$most_sent <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
             x <- x[order(x$total_sent, decreasing=T),]
 
@@ -748,14 +707,11 @@ server=function(input, output, session) {
     })
 
     output$most_received <- renderValueBox({
-        if(is.integer(input$directory)) {
+      req(input$upload)
+        if(is.integer(input$upload)) {
             valueBox("","")
         } else{
-            path_to_data <- paste(as.character(parseDirPath(volumes,
-                input$directory)), '/meeting_saved_chat.txt', sep = '')
-            x <- read.csv(path_to_data, header = FALSE, sep = "\n",
-                stringsAsFactors = TRUE, row.names = NULL)
-            x <- readr::read_lines(path_to_data)
+          x <- readr::read_lines(input$upload$datapath)
             x <- render_data(x)
             x <- data.frame(table(x$recipient))
             x <- x[order(x[,2], decreasing=T),]
