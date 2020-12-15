@@ -429,7 +429,7 @@ ui=dashboardPage(
                 tags$hr()
             ),
             menuItem("About this app", tabName = "about", icon=icon("th"),
-                startExpanded = TRUE,
+                startExpanded = FALSE,
                 tags$p(HTML("
                     <u>Download a table</u><br/><br/>
 
@@ -662,8 +662,8 @@ server=function(input, output, session) {
             unique_list <- unique(unique_list$person)
 
             valueBox(
-                length(unique_list), "Unique participants", icon = icon("list"),
-                color = "purple"
+                length(unique_list), "Unique participants", icon = icon("user-alt"),
+                color = "blue"
         )
         }
     })
@@ -683,8 +683,8 @@ server=function(input, output, session) {
             x <- x[order(x$Freq, decreasing=T),]
 
             valueBox(
-                x[,1][1], "Most Sent", icon = icon("list"),
-                color = "purple"
+                x[,1][1], "Most Sent", icon = icon("envelope"),
+                color = "aqua"
             )
         }
     })
@@ -704,7 +704,7 @@ server=function(input, output, session) {
             x <- x[order(x$Freq, decreasing=T),]
 
             valueBox(
-                x[,1][1], "Most Received", icon = icon("list"),
+                x[,1][1], "Most Received", icon = icon("envelope-open"),
                 color = "purple"
             )
         }
@@ -722,8 +722,8 @@ server=function(input, output, session) {
             x <- render_data(x)
 
             valueBox(
-                nrow(x), "Total Messages", icon = icon("list"),
-                color = "purple"
+                nrow(x), "Total Messages", icon = icon("mail-bulk"),
+                color = "red"
             )
         }
     })
@@ -741,8 +741,8 @@ server=function(input, output, session) {
             x <- x[order(x$total_sent, decreasing=T),]
 
             valueBox(
-                x$total_sent[1], "Most Messages Sent", icon = icon("list"),
-                color = "purple"
+                x$total_sent[1], "Most Messages Sent", icon = icon("paper-plane"),
+                color = "green"
             )
         }
     })
@@ -761,8 +761,8 @@ server=function(input, output, session) {
             x <- x[order(x[,2], decreasing=T),]
 
             valueBox(
-                x[,2][1], "Most Messages Received", icon = icon("list"),
-                color = "purple"
+                x[,2][1], "Most Messages Received", icon = icon("envelope-open-text"),
+                color = "orange"
             )
         }
     })
