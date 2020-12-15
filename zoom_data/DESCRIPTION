@@ -1,0 +1,9 @@
+Package: MyShinyApp
+Version: 1.0
+Title: Hello Shiny!
+Author: RStudio, Inc.
+AuthorUrl: http://www.rstudio.com/
+License: GPL-3
+DisplayMode: Normal
+Tags: getting-started
+Type: Shiny
