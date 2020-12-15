@@ -518,6 +518,7 @@ server=function(input, output, session) {
     # or all rows if selected, will be shown.
 
     req(input$upload)
+    updateTabItems(session, "tabset1", selected="Meeting transcript")
 
     # when reading semicolon separated files,
     # having a comma separator causes `read.csv` to error
