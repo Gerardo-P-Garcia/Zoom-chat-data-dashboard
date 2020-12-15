@@ -276,7 +276,7 @@ render_chat_activity <- function(x){
     messages <- x
 
     # Get date/time count
-    messages <- count(messages, date)
+    messages <- dplyr::count(messages, date)
 
     title <- paste("Chat activity")
 
