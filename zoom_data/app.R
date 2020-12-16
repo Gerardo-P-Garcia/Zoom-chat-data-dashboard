@@ -230,25 +230,21 @@ render_data_attendance <- function(x){
 create_dt <- function(x){
     require(DT)
     # Set table page length
-    if(nrow(x)>100){
-        page_length <- round(nrow(x)/3, digits = 0)
-    } else{
-        page_length <- nrow(x)
-    }
+    page_length <- nrow(x)
 
     # Title should use get_date to return date, appended to a title here
-    title <- paste("Zoom chat ")
+    #title <- paste("Zoom chat ")
 
     # Render table
     DT::datatable(x,
-        caption = htmltools::tags$caption(
-            style = 'caption-side: top; text-align: center; color:black; font-size:200% ;',
-            title),
+       # caption = htmltools::tags$caption(
+       #     style = 'caption-side: top; text-align: center; color:black; font-size:200% ;',
+        #    title),
         extensions = 'Buttons',
-        options = list(dom = 'Bfrtip',
+        options = list(dom = 'Bfrti',
         scrollY=300,
         buttons = c(
-            'pageLength', 'copy', 'csv', 'excel', 'pdf', 'print'),
+            'csv', 'pdf'),
         pageLength=page_length,
         scrollX=TRUE,
         lengthMenu = list(c(10,25,50,-1),
@@ -381,6 +377,7 @@ render_received <- function(df, title="", pct=FALSE){
 library(shiny)
 library(shinyFiles)
 library(shinydashboard)
+library(shinydashboardPlus)
 library(fs)
 library(dygraphs)
 library(DT)
@@ -458,6 +455,11 @@ ui=dashboardPage(
         )
     ),
     dashboardBody(
+      tags$head(
+        tags$style(
+          "body {overflow-y: hidden;}"
+        )
+      ),
         fluidRow(
           valueBoxOutput('unique_participants'),
           valueBoxOutput("who_most_sent"),
@@ -465,46 +467,57 @@ ui=dashboardPage(
 
           valueBoxOutput("total_sent"),
           valueBoxOutput("most_sent"),
-          valueBoxOutput("most_received")
-        ),
-        fluidRow(
-            tabBox(title=HTML("<b>Data and tables</b>"), id="tabset1", height="45vh",
-                tabPanel("Load data",
-                    tags$h4("Which file to select: meeting_saved_chat"),
-                    tags$p(HTML("The file selected should always be called <code>meeting_saved_chat</code>,\n
-                        located within your <code>Zoom</code>directory under <code>Documents</code>.<br/><br/>
+          valueBoxOutput("most_received") ),
 
-                        Typical path: <b>C:/Users/user/Documents/Zoom/[<u>Really messy file</u>]/meeting_saved_chat</b>\n\n
-
-                        You can also press the search icon on your Start panel, \n
-                        search \" This PC\", and select <code>Documents</code>\n
-                        on the left. Your <code>Zoom</code> folder should be there.")),
-                    verbatimTextOutput("directorypath"),
-                    tags$hr()
-                ),
-                tabPanel("Meeting transcript",
-                    # For reference: enabling overflow-y within tabPanels
-                    # div(style = 'overflow-y:scroll;height:500px;',
-                    DT::dataTableOutput('transcript'),
-                    tags$hr()
-                    # )
-                ),
-                tabPanel("Summary statistics",
-                    DT::dataTableOutput('table'),
-                    tags$hr()
-                ),
-                tabPanel( "Attendance",
-                    DT::dataTableOutput('attendance'),
-                    tags$hr()
-                )
-            ),
-            tabBox(title=HTML("<b>Figures</b>"), id="tabset2", height="45vh",
-                tabPanel("Chat activity", plotlyOutput(outputId = "plotly")
-                ),
+        fluidRow(column(width=8, height="30vh",
+          navbarPage("Navbar",
+       # ),
+     #   fluidRow(
+          #  tabBox(title=HTML("<b>Figures</b>"), id="tabset1", height="35vh",
+                # tabPanel("Load data",
+                #     tags$h4("Which file to select: meeting_saved_chat"),
+                #     tags$p(HTML("The file selected should always be called <code>meeting_saved_chat</code>,\n
+                #         located within your <code>Zoom</code>directory under <code>Documents</code>.<br/><br/>
+                #
+                #         Typical path: <b>C:/Users/user/Documents/Zoom/[<u>Really messy file</u>]/meeting_saved_chat</b>\n\n
+                #
+                #         You can also press the search icon on your Start panel, \n
+                #         search \" This PC\", and select <code>Documents</code>\n
+                #         on the left. Your <code>Zoom</code> folder should be there.")),
+                #     verbatimTextOutput("directorypath"),
+                #     tags$hr()
+                # ),
+                # tabPanel("Meeting transcript",
+                #     # For reference: enabling overflow-y within tabPanels
+                #     # div(style = 'overflow-y:scroll;height:500px;',
+                #     DT::dataTableOutput('transcript'),
+                #     tags$hr()
+                #     # )
+                # ),
+                # tabPanel("Summary statistics",
+                #     DT::dataTableOutput('table'),
+                #     tags$hr()
+                # ),
+                # tabPanel( "Attendance",
+                #     DT::dataTableOutput('attendance'),
+                #     tags$hr()
+                # ),
+         #   ),
+           # tabBox(title=HTML("<b>Figures</b>"), id="tabset2", height="35vh",
+                tabPanel("Chat activity", plotlyOutput(outputId = "plotly")),
                 tabPanel("Sent messages", plotlyOutput(outputId = "sent_messages")),
                 tabPanel("Received messages", plotlyOutput(outputId = "received_messages"))
-            )
-        ) # End of fluid row
+            )), column(width = 4,
+
+            navbarPage("",
+
+                       tabPanel("Transcript", DT::dataTableOutput('transcript')),
+
+                       tabPanel("Table", DT::dataTableOutput('table')),
+                      tabPanel("Attendance", DT::dataTableOutput('attendance'))
+
+        )) )
+     #   ) # End of fluid row
     ) # End of body
 ), # End of UI
 
@@ -573,6 +586,7 @@ server=function(input, output, session) {
         } else{
           x <- readr::read_lines(input$upload$datapath)
             x <- render_data_attendance(x)
+            create_dt(x)
             #create_dt(x, get_date(path_to_data))
         }
     })
