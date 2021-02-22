@@ -69,6 +69,11 @@ render_transcript <- function(df){
     df$recipient <- sub("\\(Privately).*","", df$recipient)
     df$recipient <- stringr::str_trim(df$recipient)
 
+    # edits on 2/22/2021
+    df$recipient <- sub("?:.*","", df$recipient)
+    df$recipient <- sub("?\\(D.*","", df$recipient)
+    #df$recipient <- sub(".*? in waiting room\\)","", df$recipient)
+
 
     # Fix recipient when string does not have 'to' before message
     for(i in 1:nrow(df)){
