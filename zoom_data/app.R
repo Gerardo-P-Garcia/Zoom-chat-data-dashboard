@@ -148,6 +148,453 @@ render_data <- function(x){
     return(x)
 }
 
+
+
+# added on 2021/22/02
+render_creditR <- function(raw_roster){
+
+  csv_text = 'ROSTERS,,,,,,,,,,,,,
+  SESSION 1: 2/22 - 3/5,,,,SCHEDULE BANK,,,,,,,,,
+  HUM,STEM/ Math,PE,,,,,,,,,,,Directions
+  "Barboza, Sarah E","Beliveau, Keytommy M","Gardner, Jonathan D",,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  "Beltran, Alex M","Berberte, Yan F","Kennison, Trinity S",,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,History/ ELA,,,,Step 1: Open the HS Q2 Credit Recovery sheet.
+  "Bouchard, Lukas J","Carpenter, Larell T","Murphy, Bryan R",,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,PE/ Electives,,,,"Step 2: Click on the correct tab for the grade level of your advisee (9th Grade Session Groupings, 10th Grade Session Groupings, 11th/ 12th Grade Session Groupings)."
+  "Cruz Rivera, Abdiel N","De La Cruz, Alberto A","Vega, Jaiden A",,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,,Step 3: Use the control + f combination on your keyboard to find your advisee’s name in each session. Note the order in which they will attend their Credit Recovery Zooms.
+  "Garcia Colon, Jair I","Francisco, Joseph A",,,,,,,,,,,,Step 4: Locate their schedule in the Schedule Bank. Highlight it and copy it (control + c).
+  "Januario, Evan L","Henderson, Andre N",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,Step 5: Paste the schedule into the supporting document you are sending to your scholar (use this Credit Recovery Schedule Notice if you are not currently using another document with your advisory).
+  "Leroux, Robert J","Kinsley, Hannah M",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,STEM/ Math,,,,Step 6: Customize the document to include your scholar’s name.
+  "Lilley, Aiden J","Larrivee, Arianna M",,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,,"Step 7: Email the schedule document to your advisee! Then, review the new Credit Recovery format with your advisory on Monday 2/22 during homeroom."
+  "Maranhao, Quincy X","Lopez-Hernandez, Domingo S",,,Session 3: 3/22 - 4/2,STEM/ Math,,,Session 3: 3/22 - 4/2,,,,,
+  "Montero Salgado, Jexiel O","Muhammad, Dwaine P",,,,,,,,,,,,
+  "Moton, Janaya L","Pacheco, Phillip J",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  "Nivar Lopez, Jose A","Ramos, Belladora L",,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,STEM/ Math,,,,
+  "Rabanales-Lorenzana, Ashley J","Rogers Watler, Tayia Money K",,,Session 2: 3/8 - 3/19,History/ ELA,,,Session 2: 3/8 - 3/19,PE/ Electives,,,,
+  "Rivera, Leovette M","Silva, Jeffry M",,,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,,
+  "Smith-Woods, Syriah A","Thomas, Kaleb C",,,,,,,,,,,,
+  ,"Wallace, Rome A",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  ,,,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,PE/ Electives,,,,
+  SESSION 2: 3/8 - 3/19,,,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,,
+  HUM,STEM/ Math,PE,,Session 3: 3/22 - 4/2,History/ ELA,,,Session 3: 3/22 - 4/2,,,,,
+  "Carpenter, Larell T","Beltran, Alex M","Beliveau, Keytommy M",,,,,,,,,,,
+  "Francisco, Joseph A","Bouchard, Lukas J","Berberte, Yan F",,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  "Gardner, Jonathan D","Cruz Rivera, Abdiel N",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,PE/ Electives,,,,
+  "Henderson, Andre N","Garcia Colon, Jair I",,,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,STEM/ Math,,,,
+  "Kinsley, Hannah M","Januario, Evan L",,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,,
+  "Larrivee, Arianna M","Leroux, Robert J",,,,,,,,,,,,
+  "Lopez-Hernandez, Domingo S","Lilley, Aiden J",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  "Muhammad, Dwaine P","Maranhao, Quincy X",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,STEM/ Math,,,,
+  "Murphy, Bryan R","Montero Salgado, Jexiel O",,,Session 2: 3/8 - 3/19,,,,Session 2: 3/8 - 3/19,,,,,
+  "Pacheco, Phillip J","Moton, Janaya L",,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,,
+  "Ramos, Belladora L","Nivar Lopez, Jose A",,,,,,,,,,,,
+  "Silva, Jeffry M","Rabanales-Lorenzana, Ashley J",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,,
+  "Thomas, Kaleb C","Rivera, Leovette M",,,Session 1: 2/22 - 3/5,PE/ Electives,,,Session 1: 2/22 - 3/5,,,,,
+  "Wallace, Rome A","Smith-Woods, Syriah A",,,Session 2: 3/8 - 3/19,,,,Session 2: 3/8 - 3/19,,,,,
+  ,,,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,,
+  SESSION 3: 3/22 - 4/2,,,,,,,,,,,,,
+  HUM,STEM/ Math,PE,,,,,,,,,,,
+  ,,"Beltran, Alex M",,,,,,,,,,,
+  ,,"Bouchard, Lukas J",,,,,,,,,,,
+  ,,"Carpenter, Larell T",,,,,,,,,,,
+  ,,"Cruz Rivera, Abdiel N",,,,,,,,,,,
+  ,,"Francisco, Joseph A",,,,,,,,,,,
+  ,,"Garcia Colon, Jair I",,,,,,,,,,,
+  ,,"Henderson, Andre N",,,,,,,,,,,
+  ,,"Januario, Evan L",,,,,,,,,,,
+  ,,"Kinsley, Hannah M",,,,,,,,,,,
+  ,,"Larrivee, Arianna M",,,,,,,,,,,
+  ,,"Leroux, Robert J",,,,,,,,,,,
+  ,,"Lilley, Aiden J",,,,,,,,,,,
+  ,,"Lopez-Hernandez, Domingo S",,,,,,,,,,,
+  ,,"Maranhao, Quincy X",,,,,,,,,,,
+  ,,"Montero Salgado, Jexiel O",,,,,,,,,,,
+  ,,"Moton, Janaya L",,,,,,,,,,,
+  ,,"Muhammad, Dwaine P",,,,,,,,,,,
+  ,,"Nivar Lopez, Jose A",,,,,,,,,,,
+  ,,"Pacheco, Phillip J",,,,,,,,,,,
+  ,,"Rabanales-Lorenzana, Ashley J",,,,,,,,,,,
+  ,,"Ramos, Belladora L",,,,,,,,,,,
+  ,,"Rivera, Leovette M",,,,,,,,,,,
+  ,,"Silva, Jeffry M",,,,,,,,,,,
+  ,,"Smith-Woods, Syriah A",,,,,,,,,,,
+  ,,"Thomas, Kaleb C",,,,,,,,,,,
+  ,,"Wallace, Rome A",,,,,,,,,,,'
+
+  df <- read.csv(text = csv_text, header = FALSE)
+  df <- data.frame(df)
+
+  # Create data frame for required attendance roster
+
+  # Grade 9
+
+  # Humanities
+  x <- data.frame(name=df[,1], subject='Humanities')
+  x = x[-c(1:3),]
+  x = x[c(1:15),]
+
+  # STEM
+  y <- data.frame(name=df[,2], subject='STEM')
+  y = y[-c(1:3),]
+  y = y[c(1:15),]
+
+  # PE
+  z <- data.frame(name=df[,3], subject='PE')
+  z = z[-c(1:3),]
+  z = z[c(1:15),]
+
+  x <- rbind(x, y)
+  x <- rbind(x,z)
+
+  x = x[x$name!='',]
+
+  # Get first name
+
+  # Keep text after comma
+  x$first <- sub(".*?,","", x$name)
+  x$first <- stringr::str_trim(x$first, side='left')
+  x$first <- sub(" .*","", x$first)
+  x$first <- stringr::str_trim(x$first, side='right')
+  x$first <- tolower(x$first)
+
+  # Get last name
+  #df$sender <- sub("? to .*","", df$sender)
+  x$last <- sub(",.*","", x$name)
+  x$last <- stringr::str_trim(x$last, side='left')
+  x$last <- sub(" .*","", x$last)
+  x$last <- stringr::str_trim(x$last, side='right')
+  x$last <- tolower(x$last)
+
+  # Assign grade
+  x$grade <- '9'
+
+  temp <- x
+
+
+
+  csv_text <- 'ROSTERS,,,,,,,,,,,,
+SESSION 1: 2/22 - 3/5,,,,SCHEDULE BANK,,,,,,,,Directions
+HUM,STEM/ Math,PE,,,,,,,,,,Step 1: Open the HS Q2 Credit Recovery sheet.
+"Abarrota, Brady J","Abreu, Mia L","Fernandez, Anthony L",,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,"Step 2: Click on the correct tab for the grade level of your advisee (9th Grade Session Groupings, 10th Grade Session Groupings, 11th/ 12th Grade Session Groupings)."
+"Andrade, Nathan R","Andrade, Kayden J","Gardinere, Nephtalie N",,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,History/ ELA,,,Step 3: Use the control + f combination on your keyboard to find your advisee’s name in each session. Note the order in which they will attend their Credit Recovery Zooms.
+"Carter, Xavier H","Carter, Jayden T","Nogueras, La Shawn R",,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,PE/ Electives,,,Step 4: Locate their schedule in the Schedule Bank. Highlight it and copy it (control + c).
+"Casey, Austin N","Cruz Rivera, Janiel N","Ourique, Christian I",,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,Step 5: Paste the schedule into the supporting document you are sending to your scholar (use this Credit Recovery Schedule Notice if you are not currently using another document with your advisory).
+"Dellatore, Laila R","DaSilva, Kendra L","Panama, Melanie E",,,,,,,,,,Step 6: Customize the document to include your scholar’s name.
+"Dias, Kyle P","DeJesus, Jomar X",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,"Step 7: Email the schedule document to your advisee! Then, review the new Credit Recovery format with your advisory on Monday 2/22 during homeroom."
+"DosSantos, Kescylla F","DeOliveira, Kianna L",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,STEM/ Math,,,
+"Dupree, Tai Vohn L","DosSantos, Bryan",,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,
+"Fagundes, Donovan P","Faria, Collin",,,Session 3: 3/22 - 4/2,STEM/ Math,,,Session 3: 3/22 - 4/2,,,,
+"Fitzhugh, Stanley P","Francoeur, Preston L",,,,,,,,,,,
+"Galego, Jacob M","Goncalves, Alex J",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+"Guffey, Jasmine K","Lopez Cortes, Edniel E",,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,STEM/ Math,,,
+"Innocent, Poliker","Lopez-Hernandez, Erick E",,,Session 2: 3/8 - 3/19,History/ ELA,,,Session 2: 3/8 - 3/19,PE/ Electives,,,
+"MacMurray, Luke J","Machado, Avaree E",,,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,
+"Marshall, Richard M","Maldonado, Isaiah J",,,,,,,,,,,
+"Mendell, Emma-Lee M","Medeiros, Dakota R",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+"Moniz, Jordan A","Mello, Jacob A",,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,PE/ Electives,,,
+"Penton, Bryce W","Montero Salgado, Jendiel L",,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,
+"Randolph Goyco, Giovanni J","Nogueras, Yarian L",,,Session 3: 3/22 - 4/2,History/ ELA,,,Session 3: 3/22 - 4/2,,,,
+"Rebello, Alexa R","Reyes Rosario, Omairys E",,,,,,,,,,,
+"Rivera, Roberto","Robles Pinto, Ryan E",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+"Rodriguez, Victoria A","Rodriques, Devon J",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,PE/ Electives,,,
+"Salibi, Dimitri R","Santiago Rodriguez, Aleshly A",,,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,STEM/ Math,,,
+"Souffront, Keiline N","Santos, Giovanny L",,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,
+"Thomas, Kristopher D","Swanson, Richie A",,,,,,,,,,,
+"Wallace, Breanna M","Thompson, Judayah G",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+,"Utizhungo, Keyla M",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,STEM/ Math,,,
+,,,,Session 2: 3/8 - 3/19,,,,Session 2: 3/8 - 3/19,,,,
+SESSION 2: 3/8 - 3/19,,,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,
+HUM,STEM/ Math,PE,,,,,,,,,,
+"Abreu, Mia L","Andrade, Nathan R","Abarrota, Brady J",,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+"Andrade, Kayden J","Carter, Xavier H",,,Session 1: 2/22 - 3/5,PE/ Electives,,,Session 1: 2/22 - 3/5,,,,
+"Carter, Jayden T","Casey, Austin N",,,Session 2: 3/8 - 3/19,,,,Session 2: 3/8 - 3/19,,,,
+"Cruz Rivera, Janiel N","Dellatore, Laila R",,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,
+"DaSilva, Kendra L","Dias, Kyle P",,,,,,,,,,,
+"DeJesus, Jomar X","DosSantos, Bryan",,,,,,,,,,,
+"DeOliveira, Kianna L","DosSantos, Kescylla F",,,,,,,,,,,
+"Faria, Collin","Dupree, Tai Vohn L",,,,,,,,,,,
+"Francoeur, Preston L","Fitzhugh, Stanley P",,,,,,,,,,,
+"Goncalves, Alex J","Galego, Jacob M",,,,,,,,,,,
+"Lopez Cortes, Edniel E","Guffey, Jasmine K",,,,,,,,,,,
+"Lopez-Hernandez, Erick E","Innocent, Poliker",,,,,,,,,,,
+"Machado, Avaree E","MacMurray, Luke J",,,,,,,,,,,
+"Maldonado, Isaiah J","Mendell, Emma-Lee M",,,,,,,,,,,
+"Medeiros, Dakota R","Moniz, Jordan A",,,,,,,,,,,
+"Montero Salgado, Jendiel L","Ourique, Christian I",,,,,,,,,,,
+"Nogueras, Yarian L","Penton, Bryce W",,,,,,,,,,,
+"Reyes Rosario, Omairys E","Randolph Goyco, Giovanni J",,,,,,,,,,,
+"Robles Pinto, Ryan E","Rebello, Alexa R",,,,,,,,,,,
+"Santiago Rodriguez, Aleshly A","Rodriguez, Victoria A",,,,,,,,,,,
+"Santos, Giovanny L","Salibi, Dimitri R",,,,,,,,,,,
+"Swanson, Richie A","Souffront, Keiline N",,,,,,,,,,,
+"Thompson, Judayah G","Thomas, Kristopher D",,,,,,,,,,,
+,"Wallace, Breanna M",,,,,,,,,,,
+,,,,,,,,,,,,
+SESSION 3: 3/22 - 4/2,,,,,,,,,,,,
+HUM,STEM/ Math,PE,,,,,,,,,,
+"Casey, Austin N","Maldonado, Isaiah J","Abreu, Mia L",,,,,,,,,,
+,,"Andrade, Kayden J",,,,,,,,,,
+,,"Andrade, Nathan R",,,,,,,,,,
+,,"Carter, Jayden T",,,,,,,,,,
+,,"Carter, Xavier H",,,,,,,,,,
+,,"Cruz Rivera, Janiel N",,,,,,,,,,
+,,"DaSilva, Kendra L",,,,,,,,,,
+,,"DeJesus, Jomar X",,,,,,,,,,
+,,"Dellatore, Laila R",,,,,,,,,,
+,,"DeOliveira, Kianna L",,,,,,,,,,
+,,"Dias, Kyle P",,,,,,,,,,
+,,"DosSantos, Bryan",,,,,,,,,,
+,,"DosSantos, Kescylla F",,,,,,,,,,
+,,"Faria, Collin",,,,,,,,,,
+,,"Fitzhugh, Stanley P",,,,,,,,,,
+,,"Francoeur, Preston L",,,,,,,,,,
+,,"Galego, Jacob M",,,,,,,,,,
+,,"Goncalves, Alex J",,,,,,,,,,
+,,"Guffey, Jasmine K",,,,,,,,,,
+,,"Lopez-Hernandez, Erick E",,,,,,,,,,
+,,"MacMurray, Luke J",,,,,,,,,,
+,,"Medeiros, Dakota R",,,,,,,,,,
+,,"Mendell, Emma-Lee M",,,,,,,,,,
+,,"Moniz, Jordan A",,,,,,,,,,
+,,"Montero Salgado, Jendiel L",,,,,,,,,,
+,,"Nogueras, Yarian L",,,,,,,,,,
+,,"Penton, Bryce W",,,,,,,,,,
+,,"Randolph Goyco, Giovanni J",,,,,,,,,,
+,,"Rebello, Alexa R",,,,,,,,,,
+,,"Reyes Rosario, Omairys E",,,,,,,,,,
+,,"Robles Pinto, Ryan E",,,,,,,,,,
+,,"Rodriguez, Victoria A",,,,,,,,,,
+,,"Salibi, Dimitri R",,,,,,,,,,
+,,"Santiago Rodriguez, Aleshly A",,,,,,,,,,
+,,"Santos, Giovanny L",,,,,,,,,,
+,,"Souffront, Keiline N",,,,,,,,,,
+,,"Swanson, Richie A",,,,,,,,,,
+,,"Thomas, Kristopher D",,,,,,,,,,
+,,"Thompson, Judayah G",,,,,,,,,,
+,,"Wallace, Breanna M",,,,,,,,,,'
+
+  df <- read.csv(text = csv_text, header = FALSE)
+  df <- data.frame(df)
+
+  # Grade 10
+
+  # Humanities
+  x <- data.frame(name=df[,1], subject='Humanities')
+  x = x[-c(1:3),]
+  x = x[c(1:27),]
+
+  # STEM
+  y <- data.frame(name=df[,2], subject='STEM')
+  y = y[-c(1:3),]
+  y = y[c(1:27),]
+
+  # PE
+  z <- data.frame(name=df[,3], subject='PE')
+  z = z[-c(1:3),]
+  z = z[c(1:27),]
+
+  x <- rbind(x, y)
+  x <- rbind(x,z)
+
+  x = x[x$name!='',]
+
+  # Get first name
+
+  # Keep text after comma
+  x$first <- sub(".*?,","", x$name)
+  x$first <- stringr::str_trim(x$first, side='left')
+  x$first <- sub(" .*","", x$first)
+  x$first <- stringr::str_trim(x$first, side='right')
+  x$first <- tolower(x$first)
+
+  # Get last name
+  #df$sender <- sub("? to .*","", df$sender)
+  x$last <- sub(",.*","", x$name)
+  x$last <- stringr::str_trim(x$last, side='left')
+  x$last <- sub(" .*","", x$last)
+  x$last <- stringr::str_trim(x$last, side='right')
+  x$last <- tolower(x$last)
+
+  # Assign grade
+  x$grade <- '10'
+
+  # Merge grades
+
+  temp <- rbind(temp, x)
+
+  csv_text <- 'ROSTER,,,,,,,,,,,,
+  SESSION 1: 2/22 - 3/5,,,,SCHEDULE BANK,,,,,,,,directions
+  HUM,STEM/ Math,PE,,,,,,,,,,Step 1: Open the HS Q2 Credit Recovery sheet.
+  "Arevalo, Steven A","Audet, Jason R","Dinis, Sabrina R",,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,"Step 2: Click on the correct tab for the grade level of your advisee (9th Grade Session Groupings, 10th Grade Session Groupings, 11th/ 12th Grade Session Groupings)."
+  "Beliveau, Katherine K","Barreto, Anthony J","Lamar, Spencer K",,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,History/ ELA,,,Step 3: Use the control + f combination on your keyboard to find your advisee’s name in each session. Note the order in which they will attend their Credit Recovery Zooms.
+  "Bowdre, Mia D","Bastos, Meadow M","Utizhungo, Yamilex Y",,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,PE/ Electives,,,Step 4: Locate their schedule in the Schedule Bank. Highlight it and copy it (control + c).
+  "Cabral, Savannah M","Botelho, Ethan J",,,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,Step 5: Paste the schedule into the supporting document you are sending to your scholar (use this Credit Recovery Schedule Notice if you are not currently using another document with your advisory).
+  "Chouinard, Devin M","Camara, Vanessa R",,,,,,,,,,,Step 6: Customize the document to include your scholar’s name.
+  "Cruz, Maxemiliano","Cardona, Christion N",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,"Step 7: Email the schedule document to your advisee! Then, review the new Credit Recovery format with your advisory on Monday 2/22 during homeroom."
+  "DeSousa, Arissa L","Charette, Ryon H",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,STEM/ Math,,,
+  "Grace, Connor J","Cruz, Kenneth M",,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,
+  "Henry -Thompson, Zoriah F","DeCosta, Kamryn J",,,Session 3: 3/22 - 4/2,STEM/ Math,,,Session 3: 3/22 - 4/2,,,,
+  "Larrivee, Dylan J","Edouarzin, Joshua J",,,,,,,,,,,
+  "Longchamp, Jalim Y","Franklin-Matthews, Jaleysia N",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+  "Massaquoi, Denzel A","Gomes, Erica L",,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,STEM/ Math,,,
+  "Patron Guzman, Yashira M","King, Ryan T",,,Session 2: 3/8 - 3/19,History/ ELA,,,Session 2: 3/8 - 3/19,PE/ Electives,,,
+  "Santos, Nandy O","Murphy, Dylan J",,,Session 3: 3/22 - 4/2,PE/ Electives,,,Session 3: 3/22 - 4/2,,,,
+  "Smith, Savannah N","Perry, Kiya J",,,,,,,,,,,
+  "Sousa, Zachary I","Randolph Bolding, Alayana D",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+  "Thales, Danny","Rezendes, Elizabeth A",,,Session 1: 2/22 - 3/5,STEM/ Math,,,Session 1: 2/22 - 3/5,PE/ Electives,,,
+  "Vargas Diaz, John M","Santana, Xavier R",,,Session 2: 3/8 - 3/19,PE/ Electives,,,Session 2: 3/8 - 3/19,History/ ELA,,,
+  ,"Soto, Deja L",,,Session 3: 3/22 - 4/2,History/ ELA,,,Session 3: 3/22 - 4/2,,,,
+  ,"Spencer, TreVon K",,,,,,,,,,,
+  ,"Thompson, Darienne R",,,Credit Recovery Schedule,,,,Credit Recovery Schedule,,,,
+  ,"Todd, Rowan C",,,Session 1: 2/22 - 3/5,History/ ELA,,,Session 1: 2/22 - 3/5,PE/ Electives,,,
+  ,"Velasquez, Isaac R",,,Session 2: 3/8 - 3/19,STEM/ Math,,,Session 2: 3/8 - 3/19,STEM/ Math,,,
+  ,,,,Session 3: 3/22 - 4/2,,,,Session 3: 3/22 - 4/2,,,,'
+
+  df <- read.csv(text = csv_text, header = FALSE)
+  df <- data.frame(df)
+
+  # Grade 11 and 12
+
+  # Humanities
+  x <- data.frame(name=df[,1], subject='Humanities')
+  x = x[-c(1:3),]
+  x = x[c(1:18),]
+
+  # STEM
+  y <- data.frame(name=df[,2], subject='STEM')
+  y = y[-c(1:3),]
+  y = y[c(1:18),]
+
+  # PE
+  z <- data.frame(name=df[,3], subject='PE')
+  z = z[-c(1:3),]
+  z = z[c(1:18),]
+
+  x <- rbind(x, y)
+  x <- rbind(x,z)
+
+  x = x[x$name!='',]
+
+  # Get first name
+
+  # Keep text after comma
+  x$first <- sub(".*?,","", x$name)
+  x$first <- stringr::str_trim(x$first, side='left')
+  x$first <- sub(" .*","", x$first)
+  x$first <- stringr::str_trim(x$first, side='right')
+  x$first <- tolower(x$first)
+
+  # Get last name
+  #df$sender <- sub("? to .*","", df$sender)
+  x$last <- sub(",.*","", x$name)
+  x$last <- stringr::str_trim(x$last, side='left')
+  x$last <- sub(" .*","", x$last)
+  x$last <- stringr::str_trim(x$last, side='right')
+  x$last <- tolower(x$last)
+
+  # Assign grade
+  x$grade <- '11/12'
+
+  # Merge grades
+
+  temp <- rbind(temp, x)
+
+  # Check attendance
+
+  raw_roster <- read.csv(text=raw_roster, header = TRUE)
+  raw_roster <- data.frame(raw_roster)
+
+  x <- render_data(raw_roster)
+  x <- data.frame(sender=x$sender, time=x$first_message)
+  x <- unique(x)
+
+
+  # Remove emoticons from names
+  x$sender <- gsub("[^\x01-\x7F]", "", x$sender)
+  x$sender <- tolower(x$sender)
+
+  # Hard fixes
+  temp$first[temp$first=='la'] <- 'la shawn'
+  temp$first[temp$first=='tai'] <- 'tai vohn'
+
+  temp$attendance <- 'Absent'
+
+  for(i in 1:nrow(temp)){
+      for(j in 1:nrow(x)){
+          if(grepl(temp$first[i], x$sender[j])){
+              temp$attendance[i] <- 'Present'
+          }
+      }
+  }
+
+
+  for(i in 1:nrow(temp)){
+    for(j in 1:nrow(x)){
+      if(grepl(x$sender[j], temp$first[i])){
+        temp$attendance[i] <- 'Present'
+      }
+    }
+  }
+
+  x <- temp
+
+  # Remove extra columns
+  x <- subset(x, select=-c(first, last))
+
+  # Reorder columns
+  x <- x[c(1, 3, 2, 4)]
+
+  # Rename columns
+  colnames(x) <- c('Name', 'Grade', 'Course/Subject', 'Attendance')
+
+
+
+  # fix la shawn (la)
+
+  # i <- sapply(seq_along(temp$first), function(i) grepl(temp$first[i], x$sender[i]))
+  # x$attendance <- c("No", "Yes")[i + 1L]
+
+
+
+
+
+
+
+
+  # x <- render_transcript(x)
+  # x$nrow <- seq.int(nrow(x))
+  # temp_first_msg <- x[match(unique(x$sender), x$sender), ]
+  # colnames(temp_first_msg) <- c(
+  #   'first_message', 'sender', 'recipient', 'message', 'nrow')
+  # temp_first_msg <- subset(temp_first_msg, select=c('first_message', 'sender'))
+  # x <- merge(x, temp_first_msg)
+  # x <- data.frame(x)
+  #
+  # # Reset order
+  # x <- x[order(x$nrow, decreasing = FALSE),]
+  # x<- x[seq(dim(x)[1],1),]
+  # temp_last_msg <- x[match(unique(x$sender), x$sender), ]
+  # colnames(temp_last_msg) <- c(
+  #   'sender', 'last_message', 'recipient', 'message', 'nrow', 'first_message')
+  # temp_last_msg <- subset(temp_last_msg, select=c('last_message', 'sender'))
+  # x <- merge(x, temp_last_msg)
+  # x <- x[order(x$nrow, decreasing = FALSE),]
+  # x <- subset(x, select=-c(nrow))
+  #
+  # # Reset order
+  # x <- x[,c(2, 1, 3, 4, 5, 6)]
+  #
+  # # Get total count
+  # count <- data.frame(table(x$sender))
+  # colnames(count) <- c('sender', 'total_sent')
+  # x <- merge(x, count)
+
+  # Simplify data frame
+  #x <- subset(x, select=c(sender, first_message, last_message, total_sent))
+
+  return(x)
+}
+
+
+
 # Return only information on each sender, with unique rows
 # Other chunks relied on render_data() to return redundant information
 # with messages attached.
@@ -392,7 +839,7 @@ library(plotly)
 shinyApp(
 ui=dashboardPage(
     dashboardHeader(
-        title="Zoom Chat Data"
+        title= paste("Credit Recovery Attendance ", Sys.Date(), sep='')
         # For reference: adding an icon to navheader with pop-out modal
         # ,
         # tags$li(actionLink("openModal", label = "", icon = icon("info")),
@@ -475,7 +922,7 @@ ui=dashboardPage(
           valueBoxOutput("most_received") ),
 
         fluidRow(column(width=8, height="30vh",
-          navbarPage("Navbar",
+          navbarPage("",
        # ),
      #   fluidRow(
           #  tabBox(title=HTML("<b>Figures</b>"), id="tabset1", height="35vh",
@@ -605,6 +1052,21 @@ server=function(input, output, session) {
             create_dt(x)
         }
     })
+
+
+
+    # added on 2021/22/02
+    output$transcript <- DT::renderDataTable({
+      req(input$upload)
+      if(is.integer(input$upload)) {
+      } else{
+        x <- readr::read_lines(input$upload$datapath)
+        x <- render_creditR(x)
+        create_dt(x)
+      }
+    })
+
+
 
     output$plotly <-  renderPlotly({
       req(input$upload)
